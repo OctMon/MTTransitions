@@ -145,7 +145,7 @@ public class MTMovieMaker: NSObject {
                 transition.duration = transitionDuration
                 
                 let frameBeginTime = presentTime
-                let frameCount = 29
+                let frameCount = 100
                 for counter in 0 ... frameCount {
                     autoreleasepool {
                         while !writerInput.isReadyForMoreMediaData {
