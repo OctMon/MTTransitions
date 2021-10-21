@@ -90,6 +90,9 @@ extension MTTransition {
         case wipeRight
         case wipeUp
         case zoomInCircles
+        case nwdnWipeLeft
+        case nwdnWipeRight
+        case nwdnHeart
         
         public var transition: MTTransition {
             switch self {
@@ -167,6 +170,9 @@ extension MTTransition {
             case .wipeRight: return MTWipeRightTransition()
             case .wipeUp: return MTWipeUpTransition()
             case .zoomInCircles: return MTZoomInCirclesTransition()
+            case .nwdnWipeLeft: return NwdnWipeLeftTransition()
+            case .nwdnWipeRight: return NwdnWipeRightTransition()
+            case .nwdnHeart: return NwdnHeartTransition()
             }
         }
         
@@ -205,7 +211,7 @@ extension MTTransition {
             case .glitchDisplace: return "GlitchDisplace"
             case .glitchMemories: return "GlitchMemories"
             case .gridFlip: return "GridFlip"
-            case .heart: return "Heart"
+            case .heart, .nwdnHeart: return "Heart"
             case .hexagonalize: return "Hexagonalize"
             case .invertedPageCurl: return "InvertedPageCurl"
             case .kaleidoScope: return "KaleidoScope"
@@ -242,8 +248,8 @@ extension MTTransition {
             case .windowBlinds: return "WindowBlinds"
             case .wind: return "Wind"
             case .wipeDown: return "WipeDown"
-            case .wipeLeft: return "WipeLeft"
-            case .wipeRight: return "WipeRight"
+            case .wipeLeft, .nwdnWipeLeft: return "WipeLeft"
+            case .wipeRight, .nwdnWipeRight: return "WipeRight"
             case .wipeUp: return "WipeUp"
             case .zoomInCircles: return "ZoomInCircles"
             }
