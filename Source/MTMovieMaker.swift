@@ -12,6 +12,8 @@ import MetalPetal
 public enum MTMovieMakerError: Error {
     case imagesMustMoreThanTwo
     case imagesAndEffectsDoesNotMatch
+    case canNotStartWriting
+    case aVAssetWriterInputPixelBufferAdaptorPixelBufferPoolEmpty
 }
 
 public typealias MTMovieMakerProgressHandler = (Float) -> Void
@@ -114,7 +116,7 @@ public class MTMovieMaker: NSObject {
         }
         
         writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
-        let outputSize = images.first!.size
+        var outputSize = getOutputSize(size: images.first!.size)
         let videoSettings: [String: Any] = [
             AVVideoCodecKey: AVVideoCodecH264,
             AVVideoWidthKey: outputSize.width,
@@ -127,11 +129,11 @@ public class MTMovieMaker: NSObject {
         writer?.add(writerInput)
         
         guard let success = writer?.startWriting(), success == true else {
-            fatalError("Can not start writing")
+            throw MTMovieMakerError.canNotStartWriting
         }
         
         guard let pixelBufferPool = pixelBufferAdaptor.pixelBufferPool else {
-            fatalError("AVAssetWriterInputPixelBufferAdaptor pixelBufferPool empty")
+            throw MTMovieMakerError.aVAssetWriterInputPixelBufferAdaptorPixelBufferPoolEmpty
         }
         
         self.writer?.startSession(atSourceTime: .zero)
@@ -186,6 +188,13 @@ public class MTMovieMaker: NSObject {
                 }
             }
         }
+    }
+    
+    private func getOutputSize(size:CGSize) -> CGSize {
+        var newSize:CGSize = .zero
+        newSize.width = size.width/2
+        newSize.height = size.height/2
+        return newSize
     }
     
     private func sourceBufferAttributes(outputSize: CGSize) -> [String: Any] {
