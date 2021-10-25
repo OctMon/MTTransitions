@@ -103,6 +103,7 @@ public class MTMovieMaker: NSObject {
                             frameDuration: TimeInterval = 1,
                             transitionDuration: TimeInterval = 0.8,
                             audioURL: URL? = nil,
+                            outputSize:CGSize? = nil,
                             completion: MTMovieMakerCompletion? = nil) throws {
         
         guard images.count >= 2 else {
@@ -116,14 +117,14 @@ public class MTMovieMaker: NSObject {
         }
         
         writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
-        var outputSize = getOutputSize(size: images.first!.size)
+        var outputSize =  (outputSize != nil) ? outputSize : images.first!.size
         let videoSettings: [String: Any] = [
             AVVideoCodecKey: AVVideoCodecH264,
-            AVVideoWidthKey: outputSize.width,
-            AVVideoHeightKey: outputSize.height
+            AVVideoWidthKey: outputSize!.width,
+            AVVideoHeightKey: outputSize!.height
         ]
         let writerInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoSettings)
-        let attributes = sourceBufferAttributes(outputSize: outputSize)
+        let attributes = sourceBufferAttributes(outputSize: outputSize!)
         let pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerInput,
                                                                       sourcePixelBufferAttributes: attributes)
         writer?.add(writerInput)
@@ -188,13 +189,6 @@ public class MTMovieMaker: NSObject {
                 }
             }
         }
-    }
-    
-    private func getOutputSize(size:CGSize) -> CGSize {
-        var newSize:CGSize = .zero
-        newSize.width = size.width/2
-        newSize.height = size.height/2
-        return newSize
     }
     
     private func sourceBufferAttributes(outputSize: CGSize) -> [String: Any] {
