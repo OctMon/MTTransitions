@@ -93,6 +93,8 @@ extension MTTransition {
         case nwdnWipeLeft
         case nwdnWipeRight
         case nwdnHeart
+        case nwdnSquaresWire
+        case nwdnWindowSlice
         
         public var transition: MTTransition {
             switch self {
@@ -173,6 +175,8 @@ extension MTTransition {
             case .nwdnWipeLeft: return NwdnWipeLeftTransition()
             case .nwdnWipeRight: return NwdnWipeRightTransition()
             case .nwdnHeart: return NwdnHeartTransition()
+            case .nwdnSquaresWire: return NwdnSquaresWireTransition()
+            case .nwdnWindowSlice: return NwdnWindowSliceTransition()
             }
         }
         
@@ -252,6 +256,8 @@ extension MTTransition {
             case .wipeRight, .nwdnWipeRight: return "WipeRight"
             case .wipeUp: return "WipeUp"
             case .zoomInCircles: return "ZoomInCircles"
+            case .nwdnSquaresWire: return "SquaresWire"
+            case .nwdnWindowSlice: return "WindowSlice"
             }
         }
     }
