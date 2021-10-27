@@ -31,7 +31,7 @@ fragment float4 NwdnHeartFragment(VertexOut vertexIn [[ stage_in ]],
     
     float nQuick = clamp(1.0,0.1,1.0);
     
-    return mix(getFromColor(uv, fromTexture, ratio, _fromR),
+    return mix(getFromColor(simple_zoom4(uv, smoothstep(0.0, nQuick, progress/4.0)), fromTexture, ratio, _fromR),
                getToColor(simple_zoom4(uv, smoothstep(0.0, nQuick, progress/4.0)), toTexture, ratio, _toR),
                in_heart(uv, float2(0.5, 0.4), progress)
                );
