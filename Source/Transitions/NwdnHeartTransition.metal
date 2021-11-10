@@ -30,8 +30,7 @@ fragment float4 NwdnHeartFragment(VertexOut vertexIn [[ stage_in ]],
     float _toR = float(toTexture.get_width())/float(toTexture.get_height());
     
     float nQuick = clamp(1.0,0.1,1.0);
-    float aspectRatio = float(toTexture.get_height())/float(toTexture.get_width());
-    float2 factor = float2(aspectRatio, 1.0);
+    float2 factor = float2(1.0, _toR);
     float2 p = uv.xy / factor.xy;
     float2 centerH = float2(0.5, 0.4) / factor;
     
